@@ -37,6 +37,14 @@ class Solution:
         # (n - k - 1) + (2k + 1) - 1 choose (2k + 1) - 1
         
         return comb(n + k - 1, 2 * k) % int(1e9 + 7)
+
+class Solution2:
+    def numberOfSets(self, n, k):
+        res = 1
+        for i in range(1, k * 2 + 1):
+            res *= n + k - i
+            res //= i
+        return res % (10**9 + 7)
         
 
 """

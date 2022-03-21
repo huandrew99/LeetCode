@@ -23,16 +23,19 @@ def count3d(n):
     # 5: all vertical + 4 * (2 ver, 2 hor)
     # 4: (1 hor), 4 orientations
     # cannot use 4 * p(n) because there are overlaps between f(n - 2)
-    f = [1, 2]
+    dp = [0] * (n + 2)
+    dp2 = [0] * (n + 2)
+    dp[0] = 1
+    dp[1] = 2
+    dp2[0] = 0
+    dp2[1] = 1
+    for i in range(2, n + 1):
+        dp2[i] = dp2[i - 1] + dp[i - 1] % MOD
+        dp[i] = (2 * dp2[i] + 2 * dp2[i - 1] + dp[i - 2]) % MOD
+    return dp[n]
     
     # partial, one orientation, top layer is vertical
     # p(n) = f(n - 2) + p(n - 1)
-    p = 0  # p(1)
-    
-    for _ in range(n - 1):
-        f, p = [f[1], (5 * f[0] + 2 * f[1] + 4 * p) % MOD], (p + f[0]) % MOD
-
-    return f[1]
     
                 
 print(count3d(100))  # 828630254

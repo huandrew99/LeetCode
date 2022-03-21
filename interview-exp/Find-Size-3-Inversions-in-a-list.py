@@ -76,6 +76,41 @@ def find_inv2(l):
     return cnt
 
 
+def increasing_subseq(arr):
+    f = [0] * len(arr)
+
+    for k in range(1, 4):
+        for i in range(len(arr)):
+            if k == 1:
+                f[i] = 1
+            else:
+                f[i] = 0
+                for j in range(i + 1, len(arr)):
+                    if arr[j] < arr[i]:
+                        f[i] += f[j]
+    return sum(f)
+
+from functools import cache
+def solution(arr):
+  if len(arr) < 3:
+    return 0
+  @cache
+  def rec(idx, length):
+    if length == 2:
+      return 1
+    if length >2:
+      return 0
+    total = 0
+    for idx2 in range(len(arr)):
+      if idx < idx2 and arr[idx] > arr[idx2]:
+        total += rec(idx2, length+1)
+    return total
+  answer = 0
+  for idx in range(len(arr)):
+    answer += rec(idx, 0)
+  return answer
+
+print(solution([5, 3, 4, 2, 1]))
 """
 Time O(NlogN)
 Space O(N)

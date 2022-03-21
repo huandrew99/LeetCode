@@ -27,13 +27,23 @@ Output: "1960-05-26"
 """
 class Solution:
     def reformatDate(self, date: str) -> str:
+        month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        d, m, y = date.split()
+        m = str(month.index(m) + 1).rjust(2, '0')
+        d = d[:-2].rjust(2, '0')
+
+        return "-".join([y, m, d])
+
+class Solution2:
+    def reformatDate(self, date: str) -> str:
         m2int = {x: format(i, '02d') for i, x in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
         d, m, y = date.split()
         d = d[:-2].zfill(2)
         m = m2int[m]
         return "-".join([y, m, d])
-        
 
+a = Solution()
+print(a.reformatDate("20th Oct 2052"))
 """
 Time/Space O(1)
 """

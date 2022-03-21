@@ -6,8 +6,23 @@ Given binary String str and an integer k, find the lexicographically smallest an
 def min_max(s, k, n):
     # k: length of substring
     # n: number of 1
-    M = m = s[:k]
-    for sub_s in generate_sub(s, k, n):
+    substrlist = []
+    cnt = 0  # counter for 1
+    for i in range(len(s) - k + 1):
+        sub_s = s[i: i + k]
+        if i == 0:
+            cnt = sub_s.count('1')
+        else:
+            if sub_s[-1] == '1':
+                cnt += 1
+
+        if cnt == n:
+            substrlist.append(sub_s)
+        if sub_s[0] == '1':
+            cnt -= 1
+
+    M = m = substrlist[0]
+    for sub_s in substrlist:
         M = max(M, sub_s)
         m = min(m, sub_s)
     return M, m

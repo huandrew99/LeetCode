@@ -24,6 +24,7 @@ def cnt(s, l, r):
     # 0-indexed
     l -= 1
     r -= 1
+
     # binary index tree
     # s = '|**|*|*'
     # star_cnt = [2, 1, 1]
@@ -43,7 +44,8 @@ def cnt(s, l, r):
     
     # preprocess
     bar_idx = [i for i, c in enumerate(s) if c == '|']
-    star_cnt = [r_bar - l_bar - 1 for l_bar, r_bar in pairwise(bar_idx)]
+    star_cnt = [r_bar - l_bar - 1 for l_bar, r_bar in zip(bar_idx, bar_idx[1:])]
+    print(star_cnt)
         
     # build BIT
     bit = [0] * (1 + len(star_cnt))

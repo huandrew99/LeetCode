@@ -29,24 +29,36 @@ Constraints
 1 <= n <= 50
 """
 def sortAncestral(names):
-    rom2num = {'I': 1, 'V': 5, 'X': 10, 'L': 50}
+    d = {'I': 1, 'V': 5, 'X': 10, 'L': 50}
     names = [name.split() for name in names]
-    for name in names:
-        name.append(rom_to_num(rom2num, name[1]))
+    for n in names:
+        rom = n[1]
+        num = 0
+        for i, c in enumerate(rom):
+            if i < len(rom) - 1 and d[c] < d[rom[i + 1]]:
+                num -= d[c]
+            else:
+                num += d[c]
+        n.append(num)
     names.sort(key=lambda x: (x[0], x[-1]))
-    for i, name in enumerate(names):
-        names[i] = ' '.join(name[:2])
+    for i, n in enumerate(names):
+        names[i] = ' '.join([n[0], n[1]])
     return names
-    
-    
-def rom_to_num(rom2num, rom):
-    num = 0
-    for i, c in enumerate(rom):
-        if i + 1 < len(rom) and rom2num[c] < rom2num[rom[i + 1]]:
-            num -= rom2num[c]
-        else:
-            num += rom2num[c]
-    return num
+
+def sortAncestral2(names):
+    d = {'I': 1, 'V': 5, 'X': 10, 'L': 50}
+    names = [name.split() for name in names]
+    for n in names:
+        rom = n[1]
+        num = 0
+        for i, c in enumerate(rom):
+            if i < len(rom) - 1 and d[c] < d[rom[i + 1]]:
+                num -= d[c]
+            else:
+                num += d[c]
+        n.append(num)
+    names.sort(key=lambda x: (x[0], x[-1]))
+    print(names)
             
 
 names = ["Steven XL", "Steven XVI", "David IX", "Mary XV", "Mary XIII", "Mary XX"]

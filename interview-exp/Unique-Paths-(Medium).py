@@ -24,11 +24,17 @@ Explanation: From the top-left corner, there are a total of 3 ways to reach the 
 """
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        return comb(m + n - 2, n - 1)
+        dp = [[1] * n for _ in range(m)]
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        return dp[m - 1][n - 1]
         # m + n - 2 actions to choose, 
         # n - 1 of which are down
 
 
+a = Solution()
+print(a.uniquePaths(3, 7))
 """
 Time O(min(m, n))
 Space O(1)

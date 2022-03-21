@@ -19,20 +19,21 @@ Output: 3
 Explanation: Smallest subarrays with a sum greater than or equal to '8' are [3, 4, 1] 
 or [1, 1, 6].
 """
+
+
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        l = 0
-        s = 0
-        smallest_len = len(nums) + 1
-        
-        for r, n in enumerate(nums):
-            s += n
-            while s >= target:
-                smallest_len = min(smallest_len, r - l + 1)
-                s -= nums[l]
-                l += 1
-                
-        return smallest_len if smallest_len <= len(nums) else 0
+
+        n = len(nums)
+        ans = float('inf')
+        left = sum = 0
+        for i in range(n):
+            sum += nums[i]
+            while sum >= target:
+                ans = min(i + 1 - left, ans)
+                sum -= nums[left]
+                left += 1
+        return 0 if ans == float('inf') else ans
             
 
 """

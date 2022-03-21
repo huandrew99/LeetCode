@@ -41,6 +41,17 @@ class Solution:
                 return False
             
         return False
+
+class Solution(object):
+    def reachingPoints(self, sx, sy, tx, ty):
+        while sx < tx and sy < ty:
+            if tx < ty:
+                ty %= tx
+            else:
+                tx %= ty
+        if sx == tx and sy <= ty and (ty - sy) % sx == 0:
+            return True
+        return sy == ty and sx <= tx and (tx - sx) % sy == 0
         
         
 """

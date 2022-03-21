@@ -65,35 +65,67 @@ def find_max(friends_from, friends_to, friends_weight):
     for f, t, w in zip(friends_from, friends_to, friends_weight):
         weight2adjacent_mat[w][f].add(t)
         weight2adjacent_mat[w][t].add(f)
-    
-    def dfs(node):
+
+    def dfs(node, ):
         if node in vis:
-            return
+            return []
+        connectedcomponent = []
         vis.add(node)
-        connected_component.append(node)
+        connectedcomponent.append(node)
         for n in adjacent_mat[node]:
-            dfs(n)
-    
+            connectedcomponent.extend(dfs(n))
+        return connectedcomponent
+
     # connected component for each interest
     pair2cnt = defaultdict(int)
-    for w, adjacent_mat in weight2adjacent_mat.items():
+    for adjacent_mat in weight2adjacent_mat.values():
         vis = set()
         for node in adjacent_mat:
-            connected_component = []
-            dfs(node)
-            for f, t in combinations(connected_component, 2):
-                pair2cnt[(min(f, t), max(f, t))] += 1
-                
+            connected_component = dfs(node)
+
+            for i in range(len(connected_component) - 1):
+                for j in range(i + 1, len(connected_component)):
+                    a = connected_component[i]
+                    b = connected_component[j]
+                    pair2cnt[(min(a, b), max(a, b))] += 1
+
     # count max
     max_interest_n = max(pair2cnt.values())
     return max(f * t for (f, t), cnt in pair2cnt.items() if cnt == max_interest_n)
-            
-    
+
+def findmax(friends_f, friends_t, friends_w):
+    weightgraph = defaultdict(lambda: defaultdict(set))
+    for w, f, t in zip(friends_w, friends_f, friends_t):
+        weightgraph[w][f].add(t)
+        weightgraph[w][t].add(f)
+    def dfs(node, friends):
+        if node in seen:
+            return []
+        connectedcomponent = []
+        seen.add(node)
+        connectedcomponent.append(node)
+        for n in friends[node]:
+            connectedcomponent.extend(dfs(n, friends))
+        return connectedcomponent
+
+    cnt = defaultdict(int)
+    for g in weightgraph.values():
+        seen = set()
+        for n in g:
+            connected = dfs(n, g)
+            for i in range(len(connected) - 1):
+                for j in range(i + 1, len(connected)):
+                    a = connected[i]
+                    b = connected[j]
+                    cnt[(min(a, b), max(a, b))] += 1
+    max_interest_n = max(cnt.values())
+    return max(f * t for (f, t), cnt in cnt.items() if cnt == max_interest_n)
+
 friends_from = [1, 1, 2, 2, 2, 4, 4]
 friends_to = [2, 2, 3, 3, 4, 5, 5]
 friends_weight = [1, 2, 1, 3, 3, 1, 2]
 # 20    
-print(find_max(friends_from, friends_to, friends_weight))  
+print(findmax(friends_from, friends_to, friends_weight))
 
 
 """

@@ -35,6 +35,20 @@ class Solution:
                 return False
         return True
 
+class Solution(object):
+    def isIdealPermutation(self, A):
+        for i,x in enumerate(A):
+            if abs(i - x) > 1:
+                return False
+        return True
+
+    def isIdealPermutation2(self, A):
+        cmax = 0
+        for i in range(len(A) - 2):
+            cmax = max(cmax, A[i])
+            if cmax > A[i + 2]:
+                return False
+        return True
 
 """
 Time O(N)
